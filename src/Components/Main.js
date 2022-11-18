@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import Title from './Title';
 import Photowall from './Photowall';
+import Addphoto from './Addphoto';
 
 
 
@@ -22,10 +23,12 @@ class Main extends Component{
         id: "2",
         description: "On a vacation!",
         imageLink: "https://fm.cnbc.com/applications/cnbc.com/resources/img/editorial/2017/08/24/104670887-VacationExplainsTHUMBWEB.1910x1000.jpg"
-        }]
+        }],
+        screen: 'photos'//state obj toswitch between two screens photos and addphotos
 
     }
     this.removePhoto=this.removePhoto.bind(this);
+    this.navigate=this.navigate.bind(this);
   }
 
   removePhoto(postRemoved)
@@ -35,13 +38,35 @@ class Main extends Component{
       posts:state.posts.filter(post=> post!== postRemoved)
     }))
   }
+
+  navigate()
+  {
+    this.setState({
+      screen: 'addphoto'
+    })
+  }
     render()
     {
       return (
         <div>
+          {
+            this.state.screen==='photos' && (
+        <div>
           <Title title={'Photowall'}/>
-          <Photowall posts={this.state.posts} onRemovePhoto={this.removePhoto}/>
+          <Photowall posts={this.state.posts} onRemovePhoto={this.removePhoto} navigate={this.navigate}/>
+        </div>
+            )
+    }
+    {
+       this.state.screen==='addphoto' &&(
+       
+        <div>  
+          <Addphoto />
            
+        </div>
+        )
+       
+    }
         </div>
       )
     }
